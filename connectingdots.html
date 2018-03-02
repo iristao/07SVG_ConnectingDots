@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<title>Connecting Dots RENEWED! (SVG)</title>
+
+
+
+<body>
+
+<h1>Connecting Dots </h1><br>
+<h2>** NEW! (SVG) **</h2><br><br>
+
+
+
+<svg id = "largerSVG" height = "400" width = "400">
+<rect x="0" y="0" width="400" height="400" stroke="black" fill="transparent" stroke-width="5"></rect> //to be kept even when clearBut is clicked
+
+<svg id = "svg" height = "400" width = "400"> //the node where all circles and lines are appended as children --> be cleared upon clearBut
+</svg>
+
+</svg>
+
+
+
+<button id="ClearBut">Clear</button>
+
+
+
+<script>
+
+	var svg = document.getElementById("svg");
+
+
+	var xmlns = "http://www.w3.org/2000/svg";
+
+	var lastx;
+	var lasty;
+
+
+
+	function drawPath(x,y){
+		var line = document.createElementNS(xmlns, "path");
+		var dValue = "M " + lastx + " " + lasty + " L " + x + " " + y;
+		line.setAttribute("d", dValue);
+		line.setAttribute("stroke", "red");
+		line.setAttribute("stroke-width" , 2);
+		line.setAttribute("fill" , "none");	
+		console.log('pathheredrawn');
+		svg.appendChild(line);
+	}
+
+	function drawCircle(x,y) {
+		var c1 = document.createElementNS(xmlns, "circle");
+		c1.setAttribute("cx", x);
+		c1.setAttribute("cy", y);
+		c1.setAttribute("r", 10);
+		c1.setAttribute("stroke", "orange");
+		c1.setAttribute("stroke-width", "4");
+		c1.setAttribute("fill", "purple");
+		svg.appendChild( c1 );
+	
+	}
+
+
+	function clickToDraw(){
+
+
+		var x = event.offsetX;    
+		var y = event.offsetY;
+
+
+		if (lastx == null || lasty == null){
+			lastx = x;
+			lasty = y;
+		}
+
+		drawCircle(x,y);
+		drawPath(x,y);
+
+		lastx = x;
+		lasty = y;
+		console.log('clicked');
+	}
+
+	function clearContent(){ //while keeping the box
+		while (svg.firstChild != null) {
+  			svg.removeChild(svg.firstChild);
+		}
+	}
+
+
+
+	var but = document.getElementById('ClearBut');
+
+	but.addEventListener('click', clearContent);
+
+	largerSVG.addEventListener('click',clickToDraw);
+
+
+
+
+</script>
+
+
+
+
+
+</body>
+
+</html>
